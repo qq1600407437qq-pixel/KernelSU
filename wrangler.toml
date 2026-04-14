@@ -1,0 +1,29 @@
+# 必须和你 Cloudflare 后台的 Worker 名称完全一致
+name = "silent-limit-7570"
+# Worker 入口文件，对应 edgetunnel 项目的 _worker.js
+main = "_worker.js"
+# 兼容性日期，和你后台保持一致（2026-04-14），确保最新特性可用
+compatibility_date = "2026-04-14"
+# 必须开启 nodejs_compat 兼容模式，edgetunnel 依赖该特性
+compatibility_flags = ["nodejs_compat"]
+
+# 环境变量配置（也可在 Cloudflare 后台「变量和机密」中单独配置）
+[vars]
+# 1. 替换为你自己生成的 UUID（可在线生成，建议 32 位随机字符串）
+UUID = "69ff7b2e-5cbc-4c43-a3b1-ec3ae3db3a69"
+# 2. 伪装域名（可填 Cloudflare 官方域名或你自己的已托管域名）
+HOST = "www.cloudflare.com"
+# 3. 端口（Cloudflare Workers 固定 443，无需修改）
+PORT = 443
+# 4. 管理员面板密码（edgetunnel 2.0+ 必需，用于后台管理）
+ADMIN = "123"
+
+# 构建配置，适配 Git 自动部署
+[build]
+# 关闭 sourcemap 上传，减小部署包体积
+upload_sourcemaps = false
+
+# 规则配置，确保 JS 文件以 ESModule 模式加载
+[[rules]]
+type = "ESModule"
+globs = ["**/*.js"]
